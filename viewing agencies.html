@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <style>
+        /* Add your CSS styles here */
+        .agency-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .agency-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .agency-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .agency-location {
+            color: #666;
+        }
+
+        .agency-phone,
+        .agency-email {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Dashboard</h1>
+    <button id="viewAgenciesBtn">View Agencies</button>
+    <div id="agencyListContainer" class="agency-list"></div> <!-- Corrected ID -->
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-database.js"></script>
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBZL5ajdJR_wnjrvWhIzxTfCP56MQXf0KI",
+            authDomain: "ivpbs-f2ca0.firebaseapp.com",
+            databaseURL: "https://ivpbs-f2ca0-default-rtdb.firebaseio.com",
+            projectId: "ivpbs-f2ca0",
+            storageBucket: "ivpbs-f2ca0.appspot.com",
+            messagingSenderId: "1049725030175",
+            appId:  "1:1049725030175:web:c9bbf54d8e6003060e6a2a"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Function to fetch and display agency details
+        function displayAgencyDetails() {
+            const agencyListContainer = document.getElementById('agencyListContainer'); // Corrected ID
+
+            // Reference to the Firebase database
+            const database = firebase.database();
+            const agencyRef = database.ref('agencies');
+
+            // Fetch agency details from Firebase
+            agencyRef.once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const agencyData = childSnapshot.val();
+                    const agencyName = agencyData.name;
+                    const agencyLocation = agencyData.location;
+                    const agencyPhone = agencyData.phone;
+                    const agencyEmail = agencyData.email;
+
+                    // Create HTML elements to display agency details
+                    const agencyItem = document.createElement('div');
+                    agencyItem.classList.add('agency-item');
+                    agencyItem.innerHTML = `
+                        <h2>${agencyName}</h2>
+                        <p><strong>Location:</strong> ${agencyLocation}</p>
+                        <p><strong>Phone:</strong> ${agencyPhone}</p>
+                        <p><strong>Email:</strong> ${agencyEmail}</p>
+                    `;
+                    agencyListContainer.appendChild(agencyItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching agency details:', error);
+            });
+        }
+
+        // Call the function to display agency details when the page loads
+        window.onload = displayAgencyDetails;
+    </script>
+</body>
+</html>
+

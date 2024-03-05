@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Needer</title>
+</head>
+<body>
+    <h1>Trip Needer</h1>
+    <button onclick="goToPage('hospitals')">Hospitals</button>
+    <button onclick="goToPage('restaurants')">Restaurants</button>
+    <button onclick="goToPage('essentials')">Essentials</button>
+
+    <script>
+        function goToPage(page) {
+            if (page === 'hospitals') {
+                window.location.href = 'hospitals.html';
+            } else if (page === 'restaurants') {
+                window.location.href = 'restaurants.html';
+            } else if (page === 'essentials') {
+                window.location.href = 'essentials.html';
+            }
+        }
+    </script>
+</body>
+</html>
